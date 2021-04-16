@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父类指向子类</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="shy">
+    <msg :c-info="info"></msg>
+</div>
+<template id="msg">
+        <h2>{{cInfo}}</h2>
+</template>
+<script>
+    const msg = {
+        template:`#msg`,
+        props:{
+            cInfo:{
+                type:Object,
+                default(){
+                    return {}
+                }
+            }
+        }
+    }
+
+    const vue = new Vue({
+        el:'#shy',
+        data:{
+            info:{
+                name:"shy",
+                age:18,
+                h:1.80
+            }
+        },
+        components:{
+            msg
+        }
+    })
+</script>
+</body>
+</html>

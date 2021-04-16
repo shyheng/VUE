@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="msg">
+    <cpn :number1="num" :number2="num1" @num1cha="num1cha"@num2cha="num2cha"></cpn>
+</div>
+<template id="cpn">
+    <div>
+        <h2>{{number1}}</h2>
+        <h2>{{dnumber1}}</h2>
+<!--        <input type="text" v-model="dnumber1">-->
+        <input type="text" v-bind:value="dnumber1" @input="num1Inp">
+        <h2>{{number2}}</h2>
+        <h2>{{dnumber2}}</h2>
+<!--        <input type="text" v-model="dnumber2">-->
+        <input type="text" v-bind:value="dnumber2" @input="num2Inp">
+    </div>
+</template>
+<script>
+    const app = new Vue({
+        el:"#msg",
+        data:{
+            num:1,
+            num1:2
+        },
+        methods: {
+            num1cha(val){
+                this.num = parseInt(val)
+            },
+            num2cha(val){
+                this.num1 = parseInt(val)
+            }
+        },
+        components :{
+            cpn:{
+                template:`#cpn`,
+                props:{
+                    number1: Number,
+                    number2:Number
+                },
+                data(){
+                    return{
+                        dnumber1:this.number1,
+                        dnumber2:this.number2,
+                    }
+                },
+                methods:{
+                    num1Inp(event){
+                        this.dnumber1 = event.target.value;
+                        this.$emit('num1cha',this.dnumber1)
+
+                        this.dnumber2 = this.dnumber1 * 100;
+                        this.$emit('num2cha',this.dnumber2)
+                    },
+                    num2Inp(event){
+                        this.dnumber2 = event.target.value;
+                        this.$emit('num2cha',this.dnumber2)
+
+                        this.dnumber1 = this.dnumber2 / 100;
+                        this.$emit('num2cha',this.dnumber1)
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
